@@ -2,6 +2,7 @@
  * Created by wangchao on 2016/9/28.
  */
 var file = require("../models/file.js");
+var file = require("formidable");
 //首页
 exports.showIndex = function(req,res,next){
 
@@ -33,5 +34,18 @@ exports.showAlbum = function(req,res,next){
 
         });
     });
+
+}
+
+exports.showUp = function(req,res){
+    file.getAllAlbums(function(err,albums){
+        res.render("up",{
+            "albums": albums
+        });
+    });
+}
+
+exports.doPost = function(req,res){
+    
 
 }
