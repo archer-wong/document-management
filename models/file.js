@@ -11,6 +11,7 @@ exports.getAllAlbums = function(callback){
             return;
         }
         var allAlbums = [];
+        //注意迭代器的用法
         (function iterator(i){
             if(i == files.length){
                 console.log(allAlbums);
@@ -33,6 +34,7 @@ exports.getAllAlbums = function(callback){
     //return ["小猫","小狗"];
 }
 
+//通过文件名得到所有图片
 exports.getAllImagesByAlbumName = function(albumName,callback){
     fs.readdir("./uploads/" +albumName,function(err,files){
         if(err){
@@ -57,6 +59,5 @@ exports.getAllImagesByAlbumName = function(albumName,callback){
                 iterator (i+1);
             });
         })(0);
-
     });
 }

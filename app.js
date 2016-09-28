@@ -16,7 +16,8 @@ app.use(express.static("./uploads"));
 //首页
 app.get("/",router.showIndex);
 app.get("/:albumName",router.showAlbum);
-app.get("/:up",router.showUp);
+app.get("/up",router.showUp);
+app.post("/up", router.doPost);
 
 //最后的中间件 404 ,这里要注意以下ejs文件中/js/xxx.js 和 js/xxx.js的区别
 app.use(function(req,res){
