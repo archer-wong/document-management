@@ -4,11 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>文件管理系统</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         .row h4{
             text-align: center;
+        }
+        img{
+            width:150px;
         }
     </style>
 
@@ -24,40 +27,56 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">小小相册</a>
+          <a class="navbar-brand" href="#">文件管理</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">全部相册</a></li>
-            <li><a href="up">上传</a></li>
-
+            <li class="active"><a href="/">全部文件</a></li>
+            <li><a href="/up">上传</a></li>
           </ul>
 
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
 
+    <div class="container">
+        <ol class="breadcrumb">
+          <li><a href="/">全部文件</a></li>
+          <li class="active"><%=albumname%></li>
+        </ol>
 
+        <div class="row">
+            <% for(var i = 0 ; i < images.length ; i++){ %>
+            <% var exname = images[i].split(".")[1]  %>
 
-        <div class="container">
-            <ol class="breadcrumb">
-              <li><a href="/">全部相册</a></li>
-              <li class="active"><%=albumname%></li>
-            </ol>
-
-            <div class="row">
-                <% for(var i = 0 ; i < images.length ; i++){ %>
                     <div class="col-xs-6 col-md-3">
                         <a href="#" class="thumbnail">
-                            <img src="<%=images[i]%>" alt="...">
+                            <% switch(true) {
+                                case (exname == "png" || exname == "jpg" || exname == "jpeg" || exname == "bmp"):%>
+                                    <img src="<%=images[i]%>" alt="图片没有打开">
+                                <% break; case (exname == "txt"):%>
+                                    <img src="/images/icon/txt.png" alt="图片没有打开">
+                                <% break; case (exname == "xls" || exname == "xlsx"):%>
+                                    <img src="/images/icon/xlsx.png" alt="图片没有打开">
+                                <% break; case (exname == "doc" ||exname == "docx"):%>
+                                    <img src="/images/icon/docx.png" alt="图片没有打开">
+                                <% break; case (exname == "ppt" ||exname == "pptx"):%>
+                                    <img src="/images/icon/pptx.png" alt="图片没有打开">
+                                <% break; case (exname == "pdf"):%>
+                                    <img src="/images/icon/pdf.png" alt="图片没有打开">
+                                <% break; case (exname == "zip" || exname == "rar"):%>
+                                    <img src="/images/icon/zip.png" alt="图片没有打开">
+                                <% break; default: %>
+                                    <img src="/images/icon/notImage.png" alt="图片没有打开">
+                            <% } %>
                         </a>
-                        <h4></h4>
+                        <h4><%=images[i]%></h4>
                     </div>
-                <% } %>
-            </div>
+            <% } %>
         </div>
+    </div>
 
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>

@@ -74,14 +74,14 @@ exports.doPost = function(req,res){
         }
         //判断文件尺寸
         var size = parseInt(files.tupian.size);
-        if(size>2000){
+        if(size>200000){
             res.send("文件尺寸过大");
             //删除图片
             fs.unlink(files.tupian.path);
             return;
         }
 
-        //生成文件名字
+        //生成文件名字,并获取文件扩展名
         var ttt = sd.format(new Date(), 'YYYYMMDDHHmmss');
         var ran = parseInt(Math.random() * 89999 + 10000);
         var extname = path.extname(files.tupian.name);
@@ -89,11 +89,14 @@ exports.doPost = function(req,res){
         var wenjianjia = fields.wenjianjia;
         var oldpath = files.tupian.path ;
         var newpath = path.normalize(__dirname + "/../uploads/" + wenjianjia + "/" + ttt + ran + extname);
+
         fs.rename(oldpath,newpath,function(err){
             if(err){
                 res.send("改名失败");
             }
-            res.send("成功");
+            //res.send("成功");
+            //上传成功后实现跳转到上传的文件夹
+            res.redirect(wenjianjia);
         });
     });
     return;

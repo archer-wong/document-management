@@ -31,7 +31,6 @@ exports.getAllAlbums = function(callback){
         })(0);
 
     });
-    //return ["小猫","小狗"];
 }
 
 //通过文件名得到所有图片
