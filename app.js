@@ -18,6 +18,10 @@ app.get("/",router.showIndex);
 app.get("/:albumName",router.showAlbum);
 app.get("/up",router.showUp);
 app.post("/up", router.doPost);
+app.get('/download', router.doDownload);
+app.get('/delete', router.doDelete);
+app.get('/createfile', router.doCreateFile);
+app.get('/deleteFile', router.doDeleteFile);
 
 //最后的中间件 404 ,这里要注意以下ejs文件中/js/xxx.js 和 js/xxx.js的区别
 app.use(function(req,res){

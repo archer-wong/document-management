@@ -46,8 +46,12 @@
           <li><a href="/">全部文件</a></li>
           <li class="active"><%=albumname%></li>
         </ol>
-
-        <div class="row">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default" id="listBtn">列表</button>
+            <button type="button" class="btn btn-default" id="pictureBtn">缩略图</button>
+        </div>
+        <br/><br/><br/>
+        <div class="row" id="pictureDiv" style="display:none">
             <% for(var i = 0 ; i < images.length ; i++){ %>
             <% var exname = images[i].split(".")[1]  %>
 
@@ -76,9 +80,49 @@
                     </div>
             <% } %>
         </div>
+
+        <% if(images.length > 0){ %>
+            <div class="panel panel-default" id="listDiv" style="">
+                <!-- Default panel contents -->
+                <div class="panel-heading"></div>
+                <div class="table-responsive">
+                    <!-- Table -->
+                    <table class="table table-striped table-primary mb30" >
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>文件名称</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0 ; i < images.length ; i++){ %>
+                        <tr>
+                            <td><%=i%></td>
+                            <td><%=images[i]%></td>
+                            <td><a  href="/delete?path=<%=albumname%>/<%=images[i]%>" class="btn btn-primary" id="deleteBtn">删除</a>
+                                <a  href="/download?path=<%=albumname%>/<%=images[i]%>" class="btn btn-default" id="downloadBtn">下载</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <% } %>
     </div>
 
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $("#pictureBtn").click(function(){
+            $("#pictureDiv").attr('style','');
+            $("#listDiv").attr('style','display:none');
+        })
+        $("#listBtn").click(function(){
+            $("#listDiv").attr('style','');
+            $("#pictureDiv").attr('style','display:none');
+        })
+    </script>
   </body>
 </html>

@@ -74,14 +74,14 @@ exports.doPost = function(req,res){
         }
         //判断文件尺寸
         var size = parseInt(files.tupian.size);
-        if(size>200000){
+        if(size > 2000){
             res.send("文件尺寸过大");
             //删除图片
             fs.unlink(files.tupian.path);
             return;
         }
 
-        //生成文件名字,并获取文件扩展名
+        //生成文件名字,这样做可以防止文件名字重复,并获取文件扩展名
         var ttt = sd.format(new Date(), 'YYYYMMDDHHmmss');
         var ran = parseInt(Math.random() * 89999 + 10000);
         var extname = path.extname(files.tupian.name);
@@ -100,4 +100,73 @@ exports.doPost = function(req,res){
         });
     });
     return;
+}
+
+//下载文件
+exports.doDownload = function(req,res){
+    var xpath = req.query['path'];  // 文件存储的路径
+    var filepath = path.normalize(__dirname + "/../uploads/" + xpath);
+
+    // filename:设置下载时文件的文件名，可不填，则为原名称
+    //res.download(filepath, filename);
+    res.download(filepath);
+}
+
+//删除文件
+exports.doDelete = function(req,res){
+    var xpath = req.query['path'];  // 文件存储的路径
+    var filepath = path.normalize(__dirname + "/../uploads/" + xpath);
+    var wenjianjia = xpath.split("/")[0];
+    //删除文件
+    fs.unlink(filepath);
+    res.redirect(wenjianjia);
+}
+
+//创建文件夹
+exports.doCreateFile = function(req,res){
+    var xpath = req.query['name'];  // 文件存储的路径
+    var targetDir = path.normalize(__dirname + "/../uploads/" + xpath);
+
+    file.getAllAlbums(function(err,allAlabums){
+        if(err){
+            next(); //交给下面适合他的中间件
+            return;
+        }
+
+        console.log(xpath)
+        console.log(allAlabums)
+        console.log(allAlabums.indexOf(xpath))
+        if(allAlabums.indexOf(xpath) >= 0){
+            res.send("该文件已经存在");
+            return;
+        }
+        //创建文件夹
+        fs.mkdirSync(targetDir);
+        res.redirect('/');
+    })
+}
+
+//删除文件夹
+exports.doDeleteFile = function(req,res){
+    var xpath = req.query['albumName'];  // 文件存储的路径
+    var targetDir = path.normalize(__dirname + "/../uploads/" + xpath);
+    //递归算法删除文件夹及其子文件
+    var deleteFolderRecursive = function(path) {
+        var files = [];
+        if( fs.existsSync(path) ) {
+            files = fs.readdirSync(path)
+            files.forEach(function(file,index){
+                var curPath = path + "/" + file;
+                if(fs.statSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    };
+    //调用递归算法
+    deleteFolderRecursive(targetDir)
+    res.redirect('/');
 }

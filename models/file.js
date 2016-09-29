@@ -32,7 +32,6 @@ exports.getAllAlbums = function(callback){
 
     });
 }
-
 //通过文件名得到所有图片
 exports.getAllImagesByAlbumName = function(albumName,callback){
     fs.readdir("./uploads/" +albumName,function(err,files){

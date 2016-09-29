@@ -44,7 +44,7 @@
                     <a href="<%= albums[i] %>" class="thumbnail">
                         <img src="images/wjj.jpg" alt="...">
                     </a>
-                    <h4><%= albums[i] %></h4>
+                    <h4>名称:<%= albums[i] %>&nbsp;&nbsp;&nbsp;<a  href="/deleteFile?albumName=<%=albums[i]%>" class="btn btn-default" id="downloadBtn">删除</a></h4>
                 </div>
             <% } %>
         </div>
