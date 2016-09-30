@@ -5,6 +5,7 @@ var express = require("express");
 var app = express();
 //引入路由router.js,因为在controller的package.json中已经写了入口文件所有不用写./controller/router.js
 var router = require("./controller")
+var logger = require('./log').logger;
 
 //设置模板引擎
 app.set("view engine","ejs");
